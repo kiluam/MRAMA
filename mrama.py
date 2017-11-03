@@ -63,28 +63,3 @@ class Mrama:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-# def mrama():
-# 	print "Hi"
-
-
-# def main():
-# 	pd.read_table("http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data")
-# 	pd.read_table("http://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data")
-	
-
-# if __name__=="__main__":
-# 	c = MramaTrain()
-# 	print MramaTrain.__doc__
-# 	# main()
