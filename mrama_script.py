@@ -8,8 +8,8 @@ from sklearn.model_selection import train_test_split
 
 def main():
 	attributeVar = ['sLength', 'sWidth', 'pLength', 'pWidth' , 'flowerType']
-	# df = pd.read_table("http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data", delimiter = ',', names = attributeVar)
-	df = pd.read_table("iris.data.txt", delimiter = ',', names = attributeVar)
+	df = pd.read_table("http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data", delimiter = ',', names = attributeVar)
+	# df = pd.read_table("iris.data.txt", delimiter = ',', names = attributeVar)
 	# df = df.sample(frac=1).reset_index(drop=True)	
 	y = df['flowerType'].astype('category').cat.codes
 	y = y.tolist()
