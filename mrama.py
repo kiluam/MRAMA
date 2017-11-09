@@ -5,15 +5,18 @@ import itertools as it
 
 
 class Mrama:
-	'''The class Mrama trains the learning automata based multi-class classifier with
+	'''The class MramaTrain trains the learning automata based multi-class classifier with
 		the training data set.'''
-	def __init__(self, *args,**kwargs):
-		self.params = kwargs
+	def __init__(self, l_rate, K, L, niters):
+		self.l_rate = l_rate
+		self.K = K
+		self.L = L
+		self.niters = niters
 		self.theta = 0
 
 	def fit(self, x, y):
-		x = np.tile(x, (100,1))
-		y = y * 100
+		x = np.tile(x, (self.niters,1))
+		y = y * self.niters
 		self.theta = np.random.ranf((len(set(y)), x.shape[1]+1))
 		h = self.theta
 		for idx, val in enumerate(x):
@@ -26,27 +29,41 @@ class Mrama:
 				Beta = -1
 			for inneridx, innerval in enumerate(self.theta):
 				if inneridx == np.argmax(genFunc):
-					self.theta[inneridx] = self.theta[inneridx] + self.params['l_rate'] * Beta * np.insert(val, 0, 1) * (1 - genFunc[inneridx]) * np.ones((1, x.shape[1]+1)) + self.params['l_rate'] * self.params['K']  * (h[inneridx] - self.theta[inneridx]) 
+					self.theta[inneridx] = self.theta[inneridx] + self.l_rate * Beta * np.insert(val, 0, 1) * (1 - genFunc[inneridx]) * np.ones((1, x.shape[1]+1)) + self.l_rate * self.K  * (h[inneridx] - self.theta[inneridx]) 
 				else:
-					self.theta[inneridx] = self.theta[inneridx] - self.params['l_rate'] * Beta * np.insert(val, 0, 1) * genFunc[inneridx] * np.ones((1, x.shape[1]+1)) + self.params['l_rate'] *self.params['K']* (h[inneridx] - self.theta[inneridx])	
+					self.theta[inneridx] = self.theta[inneridx] - self.l_rate * Beta * np.insert(val, 0, 1) * genFunc[inneridx] * np.ones((1, x.shape[1]+1)) + self.l_rate *self.K* (h[inneridx] - self.theta[inneridx])	
 			h = self.theta					
 			for idxh in np.nditer(h, op_flags=['readwrite']):
-				if idxh[...] > self.params['L'] :
-					idxh[...] = self.params['L']
-				elif idxh[...] < -self.params['L'] :
-					idxh[...] = -self.params['L']
+				if idxh[...] > self.L :
+					idxh[...] = self.L
+				elif idxh[...] < -self.L :
+					idxh[...] = -self.L
 				else:
 					pass
 		return self.theta
-	def cross_validation(self, x, y, cv):
-		x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 1.0/cv)
-		cv_theta = self.fit(x_train, y_train)
-		cv_predict = self.predict(x_test)
-		cv_accuracy = 0.0
-		for i,j in it.izip(y_test, cv_predict):
-			if i == j:
-				cv_accuracy += 1
-		return cv_accuracy*100/len(y_test)
+
+	@classmethod
+	def _parameter(cls, l_rate, K, L, niters):
+		return cls(l_rate, K, L, niters)
+
+	@classmethod
+	def cross_validation(self, x, y, niters = 1, kfold = 1, n_kfold = 1, **kwargs):
+		for n_fold in xrange(1, n_kfold+1):
+			for rate in kwargs['l_rate']:
+				for k in kwargs['K']:
+					for l in kwargs['L']:
+						print rate, k, l, niters
+						cv = self._parameter(rate, k, l, niters)
+						x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 1.0/kfold)
+						cv_theta = cv.fit(x_train, y_train)
+						cv_predict = cv.predict(x_test)
+						cv_accuracy = 0.0
+						for i,j in it.izip(y_test, cv_predict):
+							if i == j:
+								cv_accuracy += 1
+						print cv_accuracy*100/len(y_test)
+						print "-----****-----"
+		return 0 #cv_accuracy*100/len(y_test)
 
 
 	def predict(self, x):
@@ -59,7 +76,34 @@ class Mrama:
 
 
 
+
+
 		
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+# def mrama():
+# 	print "Hi"
+
+
+# def main():
+# 	pd.read_table("http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data")
+# 	pd.read_table("http://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data")
+	
+
+# if __name__=="__main__":
+# 	c = MramaTrain()
+# 	print MramaTrain.__doc__
+# 	# main()
