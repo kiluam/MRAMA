@@ -52,7 +52,7 @@ class Mrama:
 			for rate in kwargs['l_rate']:
 				for k in kwargs['K']:
 					for l in kwargs['L']:
-						print rate, k, l, niters
+						print "Learning rate = {}, K = {}, L = {}". format(rate, k, l, niters)
 						cv = self._parameter(rate, k, l, niters)
 						x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 1.0/kfold)
 						cv_theta = cv.fit(x_train, y_train)
@@ -61,7 +61,7 @@ class Mrama:
 						for i,j in it.izip(y_test, cv_predict):
 							if i == j:
 								cv_accuracy += 1
-						print cv_accuracy*100/len(y_test)
+						print "CV Accuracy in % = {}". format(cv_accuracy*100/len(y_test))
 						print "-----****-----"
 		return 0 #cv_accuracy*100/len(y_test)
 
