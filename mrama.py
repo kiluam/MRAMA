@@ -54,7 +54,7 @@ class Mrama:
 
 	@classmethod
 	def cross_validation(self, x, y, kfold = 1, n_kfold = 1, **kwargs):	
-		'''This function is equivalent to traditional gridsearchcv in sklearn. The 
+		'''This method is equivalent to traditional gridsearchcv in sklearn. The 
 		inputs are the attributes and the class of the training set, kfold and 
 		repeatedkfold, learning rate, penalty value, window width, number of repetitions
 		of the training data. The function will display the cross-validation accuracy. Example of calling the method 
