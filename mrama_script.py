@@ -1,3 +1,6 @@
+'''The license belongs to s maulik the author of this code. For publishing consent of
+the author is necessary.'''
+
 import pandas as pd
 import mrama as mr
 import itertools as it
