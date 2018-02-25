@@ -82,12 +82,12 @@ class Mrama:
 		return 0 #cv_accuracy*100/len(y_test)
 
 
-	def predict(self, x):
+	def predict(self, x, model):
 		'''Prediction method. The input is the attributes and the method returns the
 		predicted class of the trained classifier'''
 		y_pred = list()
 		for idx, val in enumerate(x):
-			z = np.exp(np.matmul(np.insert(val, 0, 1), np.transpose(self.theta)))
+			z = np.exp(np.matmul(np.insert(val, 0, 1), np.transpose(model)))
 			genFunc = [i/np.sum(z) for _, i in enumerate(z)]
 			y_pred.append(np.argmax(genFunc))
 		return y_pred
