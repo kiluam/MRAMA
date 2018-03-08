@@ -50,7 +50,7 @@ class Mrama:
 		return self.theta
 
 	@classmethod
-	def _parameter(cls, l_rate, K, L, niters):
+	def __parameter(cls, l_rate, K, L, niters):
 		'''This is a private method'''
 		return cls(l_rate, K, L, niters)
 
